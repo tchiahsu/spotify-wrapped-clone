@@ -24,6 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" type="image/png" href="/spotify_black.png"></link>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

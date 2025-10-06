@@ -4,7 +4,7 @@
  * it returns an access token.
  */
 export async function getAccessToken(clientId: string, code: string): Promise<string> {
-    const verifier = localStorage.getItem("verifier")
+    const verifier = sessionStorage.getItem("verifier")
 
     if (!verifier) {
         console.log("Missing Verifier Error")
