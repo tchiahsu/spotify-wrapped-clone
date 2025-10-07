@@ -14,7 +14,6 @@ export default function Callback() {
         const getToken = async () => {
             try {
                 const clientId = sessionStorage.getItem("clientId")
-                console.log(clientId)
                 if (!clientId) {
                     throw new Error("Client ID is Invalid or Null")
                 }

@@ -24,7 +24,13 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
         body: params
     });
 
-    const access_token = await result.json();
+    const { access_token } = await result.json();
+
+    console.log(`Client Id: ${clientId}`)
+    console.log(`Code: ${code}`)
+    console.log(`Verifier: ${verifier}`)
+    console.log(`Access Token: ${access_token}`)
+
     return access_token;
 }
 
@@ -32,8 +38,8 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
  * Fetch User Top 5 Artists
  */
 export async function fetchTopArtists(token: string): Promise<string> {
-    const result = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=long", {
-        method: "GET", headers: { Authorization: `Bearer: ${token}` }
+    const result = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=long_term", {
+        method: "GET", headers: { Authorization: `Bearer ${token}` }
     });
 
     return await result.json();
@@ -43,7 +49,7 @@ export async function fetchTopArtists(token: string): Promise<string> {
  * Fetch User Top 10 Tracks
  */
 export async function fetchTopTracks(token: string): Promise<string> {
-    const result = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long", {
+    const result = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long_term", {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
     });
 
@@ -57,7 +63,7 @@ export async function fetchTopTracks(token: string): Promise<string> {
  */
 export async function fetchProfile(token: string): Promise<string> {
     const result = await fetch("https://api.spotify.com/v1/me", {
-        method: "GET", headers: { Authorization: `Bearer ${token}`}
+        method: "GET", headers: { Authorization: `Bearer ${token}` }
     });
 
     return await result.json();
