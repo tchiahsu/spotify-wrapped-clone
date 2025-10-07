@@ -15,7 +15,7 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", "http://127.0.0.1:5173/callback");
+    params.append("redirect_uri", "http://127.0.0.1:3000/callback");
     params.append("code_verifier", verifier!);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
@@ -24,13 +24,30 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
         body: params
     });
 
-    if (!result.ok) {
-        console.log(result.statusText)
-        console.log(await result.text())
-    }
-
-    const { access_token } = await result.json();
+    const access_token = await result.json();
     return access_token;
+}
+
+/**
+ * Fetch User Top 5 Artists
+ */
+export async function fetchTopArtists(token: string): Promise<string> {
+    const result = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=long", {
+        method: "GET", headers: { Authorization: `Bearer: ${token}` }
+    });
+
+    return await result.json();
+}
+
+/**
+ * Fetch User Top 10 Tracks
+ */
+export async function fetchTopTracks(token: string): Promise<string> {
+    const result = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long", {
+        method: "GET", headers: { Authorization: `Bearer ${token}` }
+    });
+
+    return await result.json()
 }
 
 /**

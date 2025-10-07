@@ -1,3 +1,5 @@
+import { fetchTopArtists, fetchTopTracks } from "lib/spotify";
+
 export default function Rewind() {
 
   return (

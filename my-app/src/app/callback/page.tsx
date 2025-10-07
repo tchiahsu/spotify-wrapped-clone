@@ -10,7 +10,6 @@ export default function Callback() {
     const params = useSearchParams();
     const code = params.get("code");
 
-
     useEffect(() => {
         const getToken = async () => {
             try {
@@ -24,23 +23,20 @@ export default function Callback() {
                     throw new Error("Code is Invalid or Null")
                 }
 
-                return getAccessToken(clientId, code)
+                const token = await getAccessToken(clientId, code)
+                sessionStorage.setItem("token", token);
             } catch (error) {
                 console.error("Error getting Access Token: ", error)
                 return null
             }
         };
         
-        /** Promise<string> to string */
-        getToken().then((value) => {
-            if (!value) {
-                return
-            }
-            const accessToken: string = value;
-            sessionStorage.setItem("token", accessToken);
-        });
-
-        router.push("http://127.0.0.1:3001/dashboard")
+        /** Waits until getToken() gets resolved before proceedings */
+        getToken().then(() => {
+            setTimeout(() => {
+                router.push("http://127.0.0.1:3000/dashboard")
+            }, 1000)
+        })
     });
 
     return (
