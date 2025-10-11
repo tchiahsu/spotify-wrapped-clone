@@ -4,7 +4,8 @@
  * it returns an access token.
  */
 export async function getAccessToken(clientId: string, code: string): Promise<string> {
-    const verifier = sessionStorage.getItem("verifier")
+    const verifier = localStorage.getItem("verifier")
+    const redirectUri = `http://127.0.0.1:3000/callback`;
 
     if (!verifier) {
         console.log("Missing Verifier Error")
@@ -15,7 +16,7 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
     params.append("client_id", clientId);
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", "http://127.0.0.1:3000/callback");
+    params.append("redirect_uri", redirectUri);
     params.append("code_verifier", verifier!);
 
     const result = await fetch("https://accounts.spotify.com/api/token", {
@@ -37,18 +38,24 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
 /**
  * Fetch User Top 5 Artists
  */
-export async function fetchTopArtists(token: string): Promise<string> {
-    const result = await fetch("https://api.spotify.com/v1/me/top/artists?time_range=long_term", {
-        method: "GET", headers: { Authorization: `Bearer ${token}` }
+export async function fetchTopArtists(token: string) {
+    const result = await fetch("https://api.spotify.com/v1/me/top/artists?limit=5", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
     });
 
-    return await result.json();
+    if (!result.ok) {
+        throw new Error(`Spotify API error: ${result.status} ${result.statusText}`)
+    }
+
+    const data = await result.json();
+    return data.items;
 }
 
 /**
  * Fetch User Top 10 Tracks
  */
-export async function fetchTopTracks(token: string): Promise<string> {
+export async function fetchTopTracks(token: string) {
     const result = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long_term", {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
     });

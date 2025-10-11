@@ -1,24 +1,24 @@
 "use client"
-import { useEffect } from "react";
-// import { fetchTopArtists} from "lib/spotify";
+import { useEffect, useState } from "react";
+import { fetchTopArtists} from "lib/spotify";
 
 export default function Rewind() {
-  // const [topArtists, setTopArtists] = useState<string[]>([]);
-  // const [topTracks, setTopTracks] = useState<string[]>([]);
+  const [topArtists, setTopArtists] = useState<string[]>([]);
+  const [topTracks, setTopTracks] = useState<string[]>([]);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const token = sessionStorage.getItem("token");
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
 
-    //   if (!token) {
-    //     throw new Error("Token is null or invalid!")
-    //   }
+      if (!token) {
+        throw new Error("Token is null or invalid!")
+      }
 
-    //   const artistData = await fetchTopArtists(token)
-    //   console.log(artistData)
-    // }
+      const artistData = await fetchTopArtists(token)
+      console.log(artistData)
+    }
 
-    // fetchData()
+    fetchData()
   })
 
 

@@ -1,5 +1,5 @@
 "use client"
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAccessToken } from "lib/spotify";
 import Button from "../../components/Button";
@@ -9,34 +9,31 @@ export default function Callback() {
     const router = useRouter();
     const params = useSearchParams();
     const code = params.get("code");
+    const ranRef = useRef(false); // guard against Strict Mode double-invoke in dev
 
     useEffect(() => {
-        const getToken = async () => {
+        if (!code) return;
+        if (ranRef.current) return;
+        ranRef.current = true;
+
+        (async () => {
             try {
-                const clientId = sessionStorage.getItem("clientId")
-                if (!clientId) {
-                    throw new Error("Client ID is Invalid or Null")
-                }
+                const clientId = localStorage.getItem("clientId");
+                if (!clientId) throw new Error("Client ID is invalid of null.");
+                
+                const token = await getAccessToken(clientId, code);
+                if (!token) throw new Error("No access token returned.");
 
-                if (!code) {
-                    throw new Error("Code is Invalid or Null")
-                }
+                localStorage.setItem("token", token);
 
-                const token = await getAccessToken(clientId, code)
-                sessionStorage.setItem("token", token);
+                setTimeout(() => {
+                    router.push("/dashboard");
+                }, 600);
             } catch (error) {
-                console.error("Error getting Access Token: ", error)
-                return null
+                console.error("Error getting Access Token:", error)
             }
-        };
-        
-        /** Waits until getToken() gets resolved before proceedings */
-        getToken().then(() => {
-            setTimeout(() => {
-                router.push("http://127.0.0.1:3000/dashboard")
-            }, 1000)
-        })
-    });
+        })();
+    }, [code, router]);
 
     return (
         <>

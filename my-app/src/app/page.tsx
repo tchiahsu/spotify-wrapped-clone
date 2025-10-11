@@ -17,13 +17,14 @@ export default function Home() {
   const handleLogIn = async () => {
       const verifier = generateCodeVerifier(128)
       const challenge = await generateCodeChallenge(verifier)
+      const redirectUri = `http://127.0.0.1:3000/callback`;
 
-      sessionStorage.setItem("verifier", verifier)
-      sessionStorage.setItem("clientId", clientId)
+      localStorage.setItem("verifier", verifier)
+      localStorage.setItem("clientId", clientId)
 
       params.append("client_id", clientId);
       params.append("response_type", "code");
-      params.append("redirect_uri", "http://127.0.0.1:3000/callback");
+      params.append("redirect_uri", redirectUri);
       params.append("scope", "user-read-private user-read-email");
       params.append("code_challenge_method", "S256");
       params.append("code_challenge", challenge)
