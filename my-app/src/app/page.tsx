@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function Home() {
   const clientId = "c6b35cbf9fae4e6c82677484b1f0d84b";
-  const params = new URLSearchParams
+  const params = new URLSearchParams();
   const router = useRouter();
 
   /**
@@ -25,7 +25,7 @@ export default function Home() {
       params.append("client_id", clientId);
       params.append("response_type", "code");
       params.append("redirect_uri", redirectUri);
-      params.append("scope", "user-read-private user-read-email");
+      params.append("scope", "user-read-private user-read-email user-top-read");
       params.append("code_challenge_method", "S256");
       params.append("code_challenge", challenge)
 

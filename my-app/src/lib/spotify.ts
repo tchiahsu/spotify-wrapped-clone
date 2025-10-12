@@ -48,19 +48,25 @@ export async function fetchTopArtists(token: string) {
         throw new Error(`Spotify API error: ${result.status} ${result.statusText}`)
     }
 
-    const data = await result.json();
-    return data.items;
+    const artistData = await result.json()
+    return artistData;
 }
 
 /**
  * Fetch User Top 10 Tracks
  */
 export async function fetchTopTracks(token: string) {
-    const result = await fetch("https://api.spotify.com/v1/me/top/tracks?time_range=long_term", {
-        method: "GET", headers: { Authorization: `Bearer ${token}` }
+    const result = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=5", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
     });
 
-    return await result.json()
+    if (!result.ok) {
+        throw new Error(`Spotify API error: ${result.status} ${result.statusText}`)
+    }
+
+    const trackData = await result.json()
+    return trackData
 }
 
 /**
@@ -68,7 +74,7 @@ export async function fetchTopTracks(token: string) {
  * The authorization header, is set to Bearer TOKEN, where token is the access token
  * that we get from the spotify endpoint
  */
-export async function fetchProfile(token: string): Promise<string> {
+export async function fetchProfile(token: string) {
     const result = await fetch("https://api.spotify.com/v1/me", {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
     });
