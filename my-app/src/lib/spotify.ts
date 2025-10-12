@@ -103,10 +103,42 @@ export async function fetchRecentTracks(token: string) {
 /**
  * Create Top 50 song playlist
  */
+export async function createPlaylist(token: string, userId: string) {
+    const body = {
+        name: "My Rewind • Top 50",
+        description: "Your Top 50 Tracks from Spotify long term data",
+        public: false
+    }
+
+    const result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": `application/json` },
+        body: JSON.stringify(body)
+    })
+
+    if (!result.ok) {
+        throw new Error(`Failed to create playlist: ${result.statusText}`)
+    }
+
+    return await result.json();
+}
 
 /**
- * Add Items to Playlist
+ * Add Tracks to Playlist
  */
+export async function addTrackToPlaylist(token: string, playlistId: string, trackUris: string[]) {
+    const result = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ uris: trackUris})
+    })
+
+    if (!result.ok) {
+        throw new Error(`Failed to add tracks: ${result.statusText}`);
+    }
+
+    return result.json();
+}
 
 /**
  * A call is made using the browser's Fetch API to get the profile data.
