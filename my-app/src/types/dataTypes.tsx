@@ -11,12 +11,14 @@ export type Album = {
 
 export type SongArtist = {
     name: string
+    id: string
 }
 
 export type Artist = {
     id: string,
     name: string,
     images: Images[],
+    genres: string[]
 }
 
 export type Track = {

@@ -72,6 +72,7 @@ export async function fetchTopTracks(token: string) {
  */
 export async function getUniqueArtists(token: string, artistsId: string[]) {
     const batchIds = artistsId.join(",");
+    console.log(batchIds)
     const result = await fetch(`https://api.spotify.com/v1/artists?ids=${batchIds}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
