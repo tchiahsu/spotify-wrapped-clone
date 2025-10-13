@@ -1,15 +1,15 @@
 "use client"
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAccessToken } from "lib/spotify";
 import Tag from "../../components/Tag";
 import Image from "next/image";
 
-export default function Callback() {
+function CallbackContent() {
     const router = useRouter();
     const params = useSearchParams();
     const code = params.get("code");
-    const ranRef = useRef(false); // guard against Strict Mode double-invoke in dev
+    const ranRef = useRef(false);
 
     useEffect(() => {
         if (!code) return;
@@ -48,8 +48,8 @@ export default function Callback() {
 
                 {/* Intro Title */}
                 <div className="flex flex-col gap-2 items-center">
-                <div className="text-6xl font-bold text-center">Authenticating your Account!</div>
-                <div className="text-xl text-center">This will only take a few seconds.</div>
+                    <div className="text-6xl font-bold text-center">Authenticating your Account!</div>
+                    <div className="text-xl text-center">This will only take a few seconds.</div>
                 </div>
 
                 {/* Authenticating Tag */}
@@ -65,5 +65,17 @@ export default function Callback() {
                 <div>© 2025 Tony Hsu Tai</div>
             </footer>
         </>
+    );
+}
+
+export default function Callback() {
+    return (
+        <Suspense fallback={
+            <main className="flex flex-col h-screen w-screen justify-center items-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+            </main>
+        }>
+            <CallbackContent />
+        </Suspense>
     );
 }
