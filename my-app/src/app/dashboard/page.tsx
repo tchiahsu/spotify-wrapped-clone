@@ -4,8 +4,11 @@ import { fetchTopArtists, fetchTopTracks, getUniqueArtists } from "lib/spotify";
 import { Artist, Track } from "types/dataTypes";
 import { toTitleCase } from "lib/util";
 import { BsDot } from "react-icons/bs";
+import { IoMusicalNotesSharp } from "react-icons/io5";
+import { createTop50Playlist } from "lib/fetch";
 import Image from "next/image"
 import Tag from "components/Tag";
+import Button from "components/Button"
 
 export default function Rewind() {
   const [topArtists, setTopArtists] = useState<Artist[]>([]);
@@ -15,6 +18,20 @@ export default function Rewind() {
   const [uniqueGenreCount, setUniqueGenreCount] = useState(0);
   const [uniqueArtistCount, setUniqueArtistCount] = useState(0);
   const [trackFreshness, setTrackFreshness] = useState(0);
+
+  async function handleCreatePlaylist() {
+    const token = localStorage.getItem("token");
+    if (!token) return alert("No token found");
+    
+    try {
+      const id = await createTop50Playlist(token);
+      alert("Playlist created!");
+      window.open(`https://open.spotify.com/playlist/${id}`, '_blank');
+    } catch (error) {
+      alert(`Failed to create playlist: ${error}`);
+    }
+  }
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -219,7 +236,24 @@ export default function Rewind() {
       </div>
 
       {/* Create Wrapped Playlist */}
-      
+      <div className="flex flex-col w-5xl my-10 justify-center items-center">
+        <div className="text-3xl font-bold">Your Wrapped Mix</div>
+        <div className="text-[#B3B3B3]">A curated playlist of your top tracks</div>
+        <div className="flex flex-col justify-center items-center my-10 border-1 rounded-lg w-full h-[60vh] gap-5">
+          <div className="p-[3px] rounded-lg bg-gradient-to-r from-green-400 to-blue-500">
+            <div className="flex items-center justify-center rounded-lg w-[25vh] h-[25vh] bg-[#121212]">
+              <IoMusicalNotesSharp size={124} />
+            </div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="text-2xl font-bold">Spotify Wrapped Mix</div>
+            <div className="flex flex-row items-center text-[#B3B3B3] text-sm">
+              50 tracks <BsDot /> total minutes
+            </div>
+          </div>
+          <Button onClick={handleCreatePlaylist}>Create Playlist</Button>
+        </div>
+      </div>
 
     </main>
   );

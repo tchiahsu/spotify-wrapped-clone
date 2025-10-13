@@ -89,7 +89,7 @@ export async function getUniqueArtists(token: string, artistsId: string[]) {
  */
 export async function createPlaylist(token: string, userId: string) {
     const body = {
-        name: "My Rewind • Top 50",
+        name: "My Wrapped • Top 50",
         description: "Your Top 50 Tracks from Spotify long term data",
         public: false
     }
