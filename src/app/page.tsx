@@ -17,7 +17,7 @@ export default function Home() {
   const handleLogIn = async () => {
       const verifier = generateCodeVerifier(128)
       const challenge = await generateCodeChallenge(verifier)
-      const redirectUri = `http://127.0.0.1:3000/callback`;
+      const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
 
       localStorage.setItem("verifier", verifier)
       localStorage.setItem("clientId", clientId)

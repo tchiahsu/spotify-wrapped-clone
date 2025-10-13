@@ -5,7 +5,7 @@
  */
 export async function getAccessToken(clientId: string, code: string): Promise<string> {
     const verifier = localStorage.getItem("verifier")
-    const redirectUri = `http://127.0.0.1:3000/callback`;
+    const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
 
     if (!verifier) {
         console.log("Missing Verifier Error")

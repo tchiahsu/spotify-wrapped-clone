@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       'image-cdn-ak.spotifycdn.com',
       'seeded-session-images.scdn.co',
     ],
+    unoptimized: true,
   }
 };
 

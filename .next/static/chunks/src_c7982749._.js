@@ -183,19 +183,19 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-function Callback() {
+function CallbackContent() {
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const params = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"])();
     const code = params.get("code");
-    const ranRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false); // guard against Strict Mode double-invoke in dev
+    const ranRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "Callback.useEffect": ()=>{
+        "CallbackContent.useEffect": ()=>{
             if (!code) return;
             if (ranRef.current) return;
             ranRef.current = true;
             ({
-                "Callback.useEffect": async ()=>{
+                "CallbackContent.useEffect": async ()=>{
                     try {
                         const clientId = localStorage.getItem("clientId");
                         if (!clientId) throw new Error("Client ID is invalid of null.");
@@ -203,17 +203,17 @@ function Callback() {
                         if (!token) throw new Error("No access token returned.");
                         localStorage.setItem("token", token);
                         setTimeout({
-                            "Callback.useEffect": ()=>{
+                            "CallbackContent.useEffect": ()=>{
                                 router.push("/dashboard");
                             }
-                        }["Callback.useEffect"], 600);
+                        }["CallbackContent.useEffect"], 600);
                     } catch (error) {
                         console.error("Error getting Access Token:", error);
                     }
                 }
-            })["Callback.useEffect"]();
+            })["CallbackContent.useEffect"]();
         }
-    }["Callback.useEffect"], [
+    }["CallbackContent.useEffect"], [
         code,
         router
     ]);
@@ -241,7 +241,7 @@ function Callback() {
                             }, void 0, false, {
                                 fileName: "[project]/src/app/callback/page.tsx",
                                 lineNumber: 51,
-                                columnNumber: 17
+                                columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "text-xl text-center",
@@ -249,7 +249,7 @@ function Callback() {
                             }, void 0, false, {
                                 fileName: "[project]/src/app/callback/page.tsx",
                                 lineNumber: 52,
-                                columnNumber: 17
+                                columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
@@ -319,15 +319,44 @@ function Callback() {
         ]
     }, void 0, true);
 }
-_s(Callback, "CstKRvDvKaPZsKyibMK8xYQPHUE=", false, function() {
+_s(CallbackContent, "CstKRvDvKaPZsKyibMK8xYQPHUE=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"]
     ];
 });
-_c = Callback;
-var _c;
-__turbopack_context__.k.register(_c, "Callback");
+_c = CallbackContent;
+function Callback() {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Suspense"], {
+        fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+            className: "flex flex-col h-screen w-screen justify-center items-center",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "animate-spin rounded-full h-12 w-12 border-b-2 border-white"
+            }, void 0, false, {
+                fileName: "[project]/src/app/callback/page.tsx",
+                lineNumber: 75,
+                columnNumber: 17
+            }, void 0)
+        }, void 0, false, {
+            fileName: "[project]/src/app/callback/page.tsx",
+            lineNumber: 74,
+            columnNumber: 13
+        }, void 0),
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CallbackContent, {}, void 0, false, {
+            fileName: "[project]/src/app/callback/page.tsx",
+            lineNumber: 78,
+            columnNumber: 13
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/app/callback/page.tsx",
+        lineNumber: 73,
+        columnNumber: 9
+    }, this);
+}
+_c1 = Callback;
+var _c, _c1;
+__turbopack_context__.k.register(_c, "CallbackContent");
+__turbopack_context__.k.register(_c1, "Callback");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
