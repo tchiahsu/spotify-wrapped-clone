@@ -12,6 +12,9 @@ export default function Rewind() {
   const [topTracks, setTopTracks] = useState<Track[]>([]);
   const [topGenres, setTopGenres] = useState<string[]>([]);
   const [songPerGenre, setSongPerGenre] = useState<Record<string, Track[]>>({});
+  const [uniqueGenreCount, setUniqueGenreCount] = useState(0);
+  const [uniqueArtistCount, setUniqueArtistCount] = useState(0);
+  const [trackFreshness, setTrackFreshness] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +42,7 @@ export default function Rewind() {
       const artistId = tracks.map((track: Track) => track.artists[0].id)
       const uniqueIdSet: Set<string> = new Set(artistId)
       const uniqueIdArray = [...uniqueIdSet]
+      setUniqueArtistCount(uniqueIdArray.length)
 
       // Get Top Genres
       const uniqueArtist = await getUniqueArtists(token, uniqueIdArray)
@@ -76,8 +80,21 @@ export default function Rewind() {
 
         perGenre[g] = list;
       }
-
       setSongPerGenre(perGenre);
+
+      // Unique Genres Across Top 50
+      const allGenre: string[] = uniqueArtist.artists.flatMap(
+        (artist: Artist) => artist.genres
+      );
+      const uniqueGenres = [...new Set(allGenre)]
+      setUniqueGenreCount(uniqueGenres.length)
+
+      // Freshness Percentage Across Top 50
+      const cutoff = new Date();
+      cutoff.setMonth(cutoff.getMonth() - 24);
+      const fresh = tracks.filter(t => new Date(t.album.release_date) >= cutoff).length;
+      const pct = Math.round((fresh / tracks.length) * 1000) / 10
+      setTrackFreshness(pct)
     }
 
     fetchData()
@@ -103,7 +120,7 @@ export default function Rewind() {
           <div className="flex flex-col gap-5">
             {topArtists.map((artist: Artist, index: number) => (
               <div key={artist.id} className="grid grid-cols-[32px_64px_1fr] gap-2 items-center bg-[#535353] rounded-lg p-2">
-                <div className="flex justify-center items-center text-3xl">{index + 1}</div>
+                <div className="flex justify-center items-center text-3xl font-extrabold">{index + 1}</div>
                 <div className="w-[64px] h-[64px] overflow-hidden rounded-lg">
                   <Image src={artist.images[0].url} alt={artist.name} width={64} height={64}/>
                 </div>
@@ -115,7 +132,7 @@ export default function Rewind() {
           <div className="flex flex-col gap-5 w-full">
             {topTracks.slice(0, 5).map((track: Track, index: number) => (
               <div key={track.id} className="grid grid-cols-[32px_64px_1fr] gap-2 items-center bg-[#535353] rounded-lg p-2">
-                <div className="flex justify-center items-center text-3xl">{index + 1}</div>                
+                <div className="flex justify-center items-center text-3xl font-extrabold">{index + 1}</div>                
                 <div className="w-[64px] h-[64px] overflow-hidden rounded-lg">
                   <Image src={track.images[0].url} alt={track.name} width={64} height={64} />
                 </div>
@@ -158,6 +175,37 @@ export default function Rewind() {
           ))}
         </div>
       </div>
+
+      {/* Your Top 50 Stats */}
+      <div className="flex flex-col w-5xl mt-10">
+          <div className="text-3xl font-bold">Your Top 50 Breakdown</div>
+          <div className="text-[#B3B3B3]">A closer look at your top 50</div>
+
+          {/* Stats Panels */}
+          <div className="grid grid-cols-3 my-10 gap-10 justify-center items-center px-10">
+            <div className="flex flex-col justify-center items-center bg-[#535353] rounded-lg py-8 gap-2">
+              <div className="text-6xl font-extrabold">{uniqueArtistCount}</div>
+              <div className="text-[#B3B3B3] text-sm">Unique Artists</div>
+            </div>
+
+            <div className="flex flex-col justify-center items-center bg-[#535353] rounded-lg py-8 gap-2">
+              <div className="text-6xl font-extrabold">{uniqueGenreCount}</div>
+              <div className="text-[#B3B3B3] text-sm">Unique Genres</div>
+            </div>
+
+            <div className="flex flex-col justify-center items-center bg-[#535353] rounded-lg py-8 gap-2">
+              <div className="text-6xl font-extrabold">{trackFreshness}</div>
+              <div className="text-[#B3B3B3] text-sm">Newly Artists Discovered</div>
+            </div>
+          </div>
+      </div>
+
+      {/* Last 50 Songs */}
+      <div>
+        
+      </div>
+
+      {/* Wrapped Playlist for Top 50 */}
 
     </main>
   );
