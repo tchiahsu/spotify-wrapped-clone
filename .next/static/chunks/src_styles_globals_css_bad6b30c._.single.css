@@ -490,6 +490,10 @@
     height: calc(var(--spacing) * 6);
   }
 
+  .h-12 {
+    height: calc(var(--spacing) * 12);
+  }
+
   .h-\[25vh\] {
     height: 25vh;
   }
@@ -524,6 +528,10 @@
 
   .w-6 {
     width: calc(var(--spacing) * 6);
+  }
+
+  .w-12 {
+    width: calc(var(--spacing) * 12);
   }
 
   .w-\[25vh\] {
@@ -650,6 +658,10 @@
 
   .border-black {
     border-color: var(--color-black);
+  }
+
+  .border-white {
+    border-color: var(--color-white);
   }
 
   .bg-\[\#1db954\] {
