@@ -36,6 +36,17 @@ export type ISRC = {
     isrc: string
 }
 
-export type RecentItem = {
-    track: Track;
-}
+export type RecentResp = {
+  items: {
+    played_at: string;
+    track: {
+      id: string;
+      name: string;
+      uri: string;
+      type: string;
+      artists: { id: string; name: string }[];
+      album: { name: string; images: { url: string }[]; release_date: string };
+      external_ids?: { isrc?: string };
+    } | null;
+  }[];
+};

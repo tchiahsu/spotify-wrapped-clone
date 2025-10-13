@@ -1,5 +1,3 @@
-import { Track } from "types/dataTypes"
-
 /**
  * It loads the verifier from local storage and using both the code returned from the callback and the
  * verifier to perfrom a POST to the Spotify token API. The API uses two values to verify the request and
@@ -84,36 +82,6 @@ export async function getUniqueArtists(token: string, artistsId: string[]) {
     }
 
     return await result.json()
-}
-
-/**
- * Fetch Most Recent 50 unique songs
- */
-export async function fetchRecentTracks(token: string, desired = 50) {
-  const headers = { Authorization: `Bearer ${token}` };
-  let url = `https://api.spotify.com/v1/me/player/recently-played?limit=50`;
-
-  const seen = new Set<string>();
-  const uniques: Track[] = [];
-
-  while (uniques.length < desired && url) {
-    const res = await fetch(url, { headers });
-    if (!res.ok) throw new Error(`Spotify error: ${res.status} ${res.statusText}`);
-    const data = await res.json();
-
-    for (const item of data.items) {
-      const track = item.track;
-      if (!seen.has(track.external_ids.isrc)) {
-        seen.add(track.external_ids.isrc);
-        uniques.push(track);
-        if (uniques.length === desired) break;
-      }
-    }
-
-    url = data.next; // Spotify provides a paging link
-  }
-
-  return uniques;
 }
 
 /**

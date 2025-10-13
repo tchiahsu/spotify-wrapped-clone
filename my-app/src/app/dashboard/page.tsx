@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { fetchRecentTracks, fetchTopArtists, fetchTopTracks, getUniqueArtists } from "lib/spotify";
+import { fetchTopArtists, fetchTopTracks, getUniqueArtists } from "lib/spotify";
 import { Artist, Track } from "types/dataTypes";
 import { toTitleCase } from "lib/util";
 import { BsDot } from "react-icons/bs";
@@ -15,7 +15,6 @@ export default function Rewind() {
   const [uniqueGenreCount, setUniqueGenreCount] = useState(0);
   const [uniqueArtistCount, setUniqueArtistCount] = useState(0);
   const [trackFreshness, setTrackFreshness] = useState(0);
-  const [recentSongs, setRecentSongs] = useState<Track[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,11 +95,6 @@ export default function Rewind() {
       const fresh = tracks.filter((t: Track) => new Date(t.album.release_date) >= cutoff).length;
       const pct = Math.round((fresh / tracks.length) * 1000) / 10
       setTrackFreshness(pct)
-
-      // Get Most Recent 50
-      const recentData = await fetchRecentTracks(token)
-      console.log(recentData)
-      setRecentSongs(recentData);
     }
 
     fetchData()
@@ -211,7 +205,7 @@ export default function Rewind() {
         <div className="text-3xl font-bold">Your Moments Reel</div>
         <div className="text-[#B3B3B3]">A timeline of your last 50 plays</div>
         <div className="grid grid-cols-10 gap-5 gap-y-5 justify-center items-center mt-10">
-          {recentSongs.map((track: Track) => (
+          {topTracks.map((track: Track) => (
             <div key={track.id}>
               <div className="relative w-[90px] h-[90px] overflow-hidden rounded-lg hover:scale-110">
                 <Image src={track.album.images[0].url} alt={track.name} width={90} height={90} />
@@ -223,6 +217,9 @@ export default function Rewind() {
           ))}
         </div>
       </div>
+
+      {/* Create Wrapped Playlist */}
+      
 
     </main>
   );
