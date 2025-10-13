@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getAccessToken } from "lib/spotify";
-import Tag from "../../components/Button";
+import Tag from "../../components/Tag";
 import Image from "next/image";
 
 export default function Callback() {
