@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { fetchTopArtists, fetchTopTracks, getUniqueArtists } from "lib/spotify";
+import { fetchRecentTracks, fetchTopArtists, fetchTopTracks, getUniqueArtists } from "lib/spotify";
 import { Artist, Track } from "types/dataTypes";
 import { toTitleCase } from "lib/util";
 import { BsDot } from "react-icons/bs";
@@ -15,6 +15,7 @@ export default function Rewind() {
   const [uniqueGenreCount, setUniqueGenreCount] = useState(0);
   const [uniqueArtistCount, setUniqueArtistCount] = useState(0);
   const [trackFreshness, setTrackFreshness] = useState(0);
+  const [recentSongs, setRecentSongs] = useState<Track[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +35,7 @@ export default function Rewind() {
       // Get Top Tracks
       const trackData = await fetchTopTracks(token)
       const tracks = trackData.items.map((track: Track) => ({
-        id: track.id, name: track.name, album: track.album, artists: track.artists, images: track.album.images
+        id: track.id, name: track.name, uri: track.uri, album: track.album, artists: track.artists, images: track.album.images
       }))
       setTopTracks(tracks)
 
@@ -92,9 +93,14 @@ export default function Rewind() {
       // Freshness Percentage Across Top 50
       const cutoff = new Date();
       cutoff.setMonth(cutoff.getMonth() - 24);
-      const fresh = tracks.filter(t => new Date(t.album.release_date) >= cutoff).length;
+      const fresh = tracks.filter((t: Track) => new Date(t.album.release_date) >= cutoff).length;
       const pct = Math.round((fresh / tracks.length) * 1000) / 10
       setTrackFreshness(pct)
+
+      // Get Most Recent 50
+      const recentData = await fetchRecentTracks(token)
+      console.log(recentData)
+      setRecentSongs(recentData);
     }
 
     fetchData()
@@ -195,17 +201,28 @@ export default function Rewind() {
 
             <div className="flex flex-col justify-center items-center bg-[#535353] rounded-lg py-8 gap-2">
               <div className="text-6xl font-extrabold">{trackFreshness}</div>
-              <div className="text-[#B3B3B3] text-sm">Newly Artists Discovered</div>
+              <div className="text-[#B3B3B3] text-sm">Newly Discovered Artists</div>
             </div>
           </div>
       </div>
 
       {/* Last 50 Songs */}
-      <div>
-        
+      <div className="flex flex-col w-5xl my-10">
+        <div className="text-3xl font-bold">Your Moments Reel</div>
+        <div className="text-[#B3B3B3]">A timeline of your last 50 plays</div>
+        <div className="grid grid-cols-10 gap-5 gap-y-5 justify-center items-center mt-10">
+          {recentSongs.map((track: Track) => (
+            <div key={track.id}>
+              <div className="relative w-[90px] h-[90px] overflow-hidden rounded-lg hover:scale-110">
+                <Image src={track.album.images[0].url} alt={track.name} width={90} height={90} />
+                <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-white text-xs font-bold p-1 text-center opacity-0 hover:opacity-100 transition-opacity">
+                  {track.name}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-
-      {/* Wrapped Playlist for Top 50 */}
 
     </main>
   );

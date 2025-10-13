@@ -7,6 +7,7 @@ export type Images = {
 export type Album = {
     name: string,
     images: Images[],
+    release_date: string
 }
 
 export type SongArtist = {
@@ -24,7 +25,17 @@ export type Artist = {
 export type Track = {
     id: string,
     name: string,
+    uri: string
     album: Album,
     artists: SongArtist[],
     images: Images[],
+    external_ids: ISRC
+}
+
+export type ISRC = {
+    isrc: string
+}
+
+export type RecentItem = {
+    track: Track;
 }
