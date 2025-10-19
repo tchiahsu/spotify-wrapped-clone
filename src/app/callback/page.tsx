@@ -14,6 +14,7 @@ function CallbackContent() {
     const code = params.get("code");
     const ranRef = useRef(false);
     const { setToken, setClientId } = useAuth();
+    const prefix = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
     useEffect(() => {
         if (!code || ranRef.current) return;
@@ -50,7 +51,7 @@ function CallbackContent() {
             <main className="flex flex-col h-screen w-screen justify-center items-center mt-[-50px] gap-7 sm:items-center">
                 {/* Spotify Logo */}
                 <Image
-                    src="/spotify_white.png"
+                    src={`${prefix}/spotify_white.png`}
                     alt="spotify logo"
                     width={50}
                     height={50}

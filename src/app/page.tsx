@@ -11,6 +11,7 @@ export default function Home() {
   const params = new URLSearchParams();
   const router = useRouter();
   const { setClientId } = useAuth();
+  const prefix = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   /**
    * A new URLSearchParams object is created. It adds the client_id, response_type, redirect_uri and scope
@@ -43,7 +44,7 @@ export default function Home() {
       <main className="flex flex-col h-screen w-screen justify-center items-center mt-[-50px] gap-7 sm:items-center">
         {/* Spotify Logo */}
         <Image
-          src={"/spotify_white.png"}
+          src={`${prefix}/spotify_white.png`}
           alt="spotify logo"
           width={50}
           height={50}
