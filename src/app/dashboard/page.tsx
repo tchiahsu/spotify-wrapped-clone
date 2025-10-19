@@ -169,11 +169,14 @@ export default function Wrapped() {
 
         {/* Top Genre Panels */}
         <div className="grid grid-cols-3 my-10 gap-10">
-          {topGenres.map((g) => (
-            <div key={g} className="flex flex-col bg-[#535353] rounded-lg px-3 py-5">
+
+          {topGenres.map((g) => {
+            const list = songPerGenre[g] ?? [];
+            return (
+              <div key={g} className="flex flex-col bg-[#535353] rounded-lg px-3 py-5">
                 <div className="flex justify-center items-center text-center text-2xl font-bold m-3">{toTitleCase(g)}</div>
                 <div className="grid grid-cols-1 gap-y-2">
-                  {songPerGenre[g].slice(0,3).map((t) => (
+                  {list.slice(0,3).map((t) => (
                     <div key={t.id} className="flex flex-row items-center p-2">
                       <div className="w-[64px] h-[64px] overflow-hidden rounded-lg">
                         <Image src={t.images[0].url} alt={t.name} width={64} height={64} />
@@ -183,7 +186,9 @@ export default function Wrapped() {
                   ))}
                 </div>
               </div>
-          ))}
+            );
+          })}
+  
         </div>
       </div>
 
