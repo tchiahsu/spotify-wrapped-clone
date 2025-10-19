@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/tonyhsu/Desktop/projects/spotify-wrapped/src/app/icon.png.mjs%20%28structured%20image%20object%29"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 939, height: 940 }\n"],"names":[],"mappings":";;;;AAAA;;uCACe;IAAE,KAAA,sHAAG;IAAE,OAAO;IAAK,QAAQ;AAAI","debugId":null}}]
+}

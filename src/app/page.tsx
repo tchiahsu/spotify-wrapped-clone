@@ -21,8 +21,9 @@ export default function Home() {
   const handleLogIn = async () => {
       const verifier = generateCodeVerifier(128)
       const challenge = await generateCodeChallenge(verifier)
-      const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
-
+      // const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
+      const redirectUri = `http://127.0.0.1:3000/callback`;
+    
       // Keep information for ~10 minutes
       setCookie("verifier", verifier, 600);
       setCookie("client_id", clientId, 600);

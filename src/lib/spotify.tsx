@@ -4,7 +4,8 @@
  * it returns an access token.
  */
 export async function getAccessToken(clientId: string, code: string, verifier: string): Promise<string> {
-    const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
+    // const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
+    const redirectUri = `http://127.0.0.1:3000/callback`;
 
     if (!verifier) {
         throw new Error("Missing Verifier")
