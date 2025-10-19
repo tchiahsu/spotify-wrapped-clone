@@ -4,27 +4,37 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { getAccessToken } from "lib/spotify";
 import Tag from "../../components/Tag";
 import Image from "next/image";
+import { getCookie, deleteCookie } from "lib/cookies";
+import { useAuth } from "context/AuthContext";
+
 
 function CallbackContent() {
     const router = useRouter();
     const params = useSearchParams();
     const code = params.get("code");
     const ranRef = useRef(false);
+    const { setToken, setClientId } = useAuth();
 
     useEffect(() => {
-        if (!code) return;
-        if (ranRef.current) return;
+        if (!code || ranRef.current) return;
         ranRef.current = true;
 
         (async () => {
             try {
-                const clientId = localStorage.getItem("clientId");
+                const clientId = getCookie("client_id");
                 if (!clientId) throw new Error("Client ID is invalid of null.");
                 
-                const token = await getAccessToken(clientId, code);
-                if (!token) throw new Error("No access token returned.");
+                const verifier = getCookie("verifier");
+                if (!verifier) throw new Error("No verifier found.");
 
-                localStorage.setItem("token", token);
+                const token = await getAccessToken(clientId, code, verifier);
+                if (!token) throw new Error("No access token returned.")
+
+                setClientId(clientId);
+                setToken(token);
+
+                deleteCookie("client_id");
+                deleteCookie("verifier");
 
                 setTimeout(() => {
                     router.push("/dashboard");
@@ -33,7 +43,7 @@ function CallbackContent() {
                 console.error("Error getting Access Token:", error)
             }
         })();
-    }, [code, router]);
+    }, [code, router, setClientId, setToken]);
 
     return (
         <>

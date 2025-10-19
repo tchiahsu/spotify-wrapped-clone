@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
+import { useAuth } from "context/AuthContext";
 import { fetchTopArtists, fetchTopTracks, getUniqueArtists } from "lib/spotify";
 import { Artist, Track } from "types/dataTypes";
 import { toTitleCase } from "lib/util";
@@ -11,6 +12,7 @@ import Tag from "components/Tag";
 import Button from "components/Button"
 
 export default function Rewind() {
+  const { token } = useAuth();
   const [topArtists, setTopArtists] = useState<Artist[]>([]);
   const [topTracks, setTopTracks] = useState<Track[]>([]);
   const [topGenres, setTopGenres] = useState<string[]>([]);
@@ -34,13 +36,8 @@ export default function Rewind() {
 
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        throw new Error("Token is null or invalid!")
-      }
-
+    if (!token) return;
+    (async () => {
       // Get Top Artists
       const artistData = await fetchTopArtists(token)
       const artists = artistData.items.map((artist: Artist) => ({
@@ -112,10 +109,8 @@ export default function Rewind() {
       const fresh = tracks.filter((t: Track) => new Date(t.album.release_date) >= cutoff).length;
       const pct = Math.round((fresh / tracks.length) * 1000) / 10
       setTrackFreshness(pct)
-    }
-
-    fetchData()
-  }, []);
+    })();
+  }, [token]);
 
   return (
     <main className="flex flex-col gap-5 justify-center items-center">

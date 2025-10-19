@@ -1,6 +1,8 @@
 "use client"
 import { generateCodeVerifier, generateCodeChallenge } from "lib/pkce";
 import { useRouter } from "next/navigation";
+import { setCookie } from "lib/cookies";
+import { useAuth } from "context/AuthContext";
 import Button from "../components/Button";
 import Image from "next/image";
 
@@ -8,6 +10,7 @@ export default function Home() {
   const clientId = "c6b35cbf9fae4e6c82677484b1f0d84b";
   const params = new URLSearchParams();
   const router = useRouter();
+  const { setClientId } = useAuth();
 
   /**
    * A new URLSearchParams object is created. It adds the client_id, response_type, redirect_uri and scope
@@ -19,8 +22,11 @@ export default function Home() {
       const challenge = await generateCodeChallenge(verifier)
       const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
 
-      localStorage.setItem("verifier", verifier)
-      localStorage.setItem("clientId", clientId)
+      // Keep information for ~10 minutes
+      setCookie("verifier", verifier, 600);
+      setCookie("client_id", clientId, 600);
+
+      setClientId(clientId);
 
       params.append("client_id", clientId);
       params.append("response_type", "code");

@@ -3,12 +3,10 @@
  * verifier to perfrom a POST to the Spotify token API. The API uses two values to verify the request and
  * it returns an access token.
  */
-export async function getAccessToken(clientId: string, code: string): Promise<string> {
-    const verifier = localStorage.getItem("verifier")
+export async function getAccessToken(clientId: string, code: string, verifier: string): Promise<string> {
     const redirectUri = `https://tchiahsu.github.io/spotify-wrapped-clone/callback`;
 
     if (!verifier) {
-        console.log("Missing Verifier Error")
         throw new Error("Missing Verifier")
     }
 
@@ -26,11 +24,6 @@ export async function getAccessToken(clientId: string, code: string): Promise<st
     });
 
     const { access_token } = await result.json();
-
-    console.log(`Client Id: ${clientId}`)
-    console.log(`Code: ${code}`)
-    console.log(`Verifier: ${verifier}`)
-    console.log(`Access Token: ${access_token}`)
 
     return access_token;
 }
