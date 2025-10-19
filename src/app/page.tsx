@@ -43,7 +43,7 @@ export default function Home() {
       <main className="flex flex-col h-screen w-screen justify-center items-center mt-[-50px] gap-7 sm:items-center">
         {/* Spotify Logo */}
         <Image
-          src={`${process.env.basePath || ''}/spotify_white.png`}
+          src={"/spotify_white.png"}
           alt="spotify logo"
           width={50}
           height={50}

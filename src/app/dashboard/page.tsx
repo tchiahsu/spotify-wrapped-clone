@@ -11,7 +11,7 @@ import Image from "next/image"
 import Tag from "components/Tag";
 import Button from "components/Button"
 
-export default function Rewind() {
+export default function Wrapped() {
   const { token } = useAuth();
   const [topArtists, setTopArtists] = useState<Artist[]>([]);
   const [topTracks, setTopTracks] = useState<Track[]>([]);
@@ -22,7 +22,6 @@ export default function Rewind() {
   const [trackFreshness, setTrackFreshness] = useState(0);
 
   async function handleCreatePlaylist() {
-    const token = localStorage.getItem("token");
     if (!token) return alert("No token found");
     
     try {
