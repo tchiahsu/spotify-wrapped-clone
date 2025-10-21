@@ -53,7 +53,7 @@ export default function Home() {
 
         {/* Intro Title */}
         <div className="flex flex-col gap-2 items-center">
-          <div className="text-6xl font-bold text-center">Your Year in Music Awaits!</div>
+          <div className="text-6xl font-bold text-center">Spotify Wrapped Clone</div>
           <div className="text-xl text-center">Log in to relive the songs, artists, and moments that defined your year.</div>
         </div>
 

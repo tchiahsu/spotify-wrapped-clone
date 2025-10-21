@@ -116,7 +116,7 @@ export default function Wrapped() {
 
       {/* Page Title */}
       <div className="flex flex-col gap-3 h-[50vh] justify-center items-center">
-        <div className="text-6xl font-bold mt-3">Your Year In Music</div>
+        <div className="text-6xl font-bold mt-3">Spotify Wrapped Clone</div>
         <div className="text-[#B3B3B3]">A journey through your Top 50 songs over the last few months</div>
         <Tag>Your Spotify Wrapped</Tag>
       </div>
